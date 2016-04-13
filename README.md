@@ -12,7 +12,7 @@ that parts of this API may some day be useful to SFCurve.)
 ## coarse development status by section
 
 | area | API | example implementation |
-| ---- | ----- |
+| ---- | :---: | :-----: |
 | discretizer | Yes | Yes |
 | space       | Yes | Yes |
 | curve       | No  | No  |
