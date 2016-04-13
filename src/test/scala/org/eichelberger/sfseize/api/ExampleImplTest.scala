@@ -10,23 +10,42 @@ class ExampleImplTest extends Specification with LazyLogging {
   "FieldRange" should {
     "be creatable" in {
       val fieldRange = ContinuousFieldRange(0.0, 1.0)
-      println(s"Field range:  $fieldRange")
+      logger.debug(s"Field range:  $fieldRange")
       fieldRange must not(beNull)
     }
   }
 
   "longitude ContinuousDiscretizer" should {
     "correctly handle extreme value" in {
-      for (c <- 1 to 36) {
-        val discretizer = ContinuousDiscretizer("example", ContinuousFieldRange(-180.0, 180.0), c)
+      for (cardinality <- 1 to 36) {
+        val discretizer = ContinuousDiscretizer("example", ContinuousFieldRange(-180.0, 180.0), cardinality)
 
         val binMax = discretizer.discretize(180.0)
-        println(s"Discretizing maximum longitude, $c bins:  $binMax")
-        binMax must equalTo(c - 1)
+        logger.debug(s"Discretizing maximum longitude, $cardinality bins:  $binMax")
+        binMax must equalTo(cardinality - 1)
 
         val binMin = discretizer.discretize(-180.0)
-        println(s"Discretizing minimum longitude, $c bins:  $binMin")
+        logger.debug(s"Discretizing minimum longitude, $cardinality bins:  $binMin")
         binMin must equalTo(0)
+      }
+
+      1 must equalTo(1)
+    }
+
+    "yield spaces that contain the original values" in {
+      for (cardinality <- 1 to 36) {
+        val discretizer = ContinuousDiscretizer("example", ContinuousFieldRange(-180.0, 180.0), cardinality)
+
+        logger.debug(s"Testing space containment for undiscretizing... $cardinality")
+
+        for (longitude <- -180.0 to 180.0 by 0.1) {
+          val bin = discretizer.discretize(longitude)
+          val space = discretizer.undiscretize(bin)
+          val contains = space.contains(Seq(longitude))
+          if (!contains)
+            logger.error(s"Undiscretize longitude, $cardinality bins, $longitude degrees -> space $space -> $contains")
+          contains must beTrue
+        }
       }
 
       1 must equalTo(1)
