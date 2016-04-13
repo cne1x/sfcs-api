@@ -5,7 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src.iml" afterPath="$PROJECT_DIR$/src.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/ExampleImpl.scala" afterPath="$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/ExampleImpl.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala" afterPath="$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala" />
     </list>
     <ignored path="sfseize-ape.iws" />
@@ -69,23 +68,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExampleImplTest.scala" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ExampleImplTest.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" column="61" selection-start-line="7" selection-start-column="61" selection-end-line="7" selection-end-column="61" />
+            <state relative-caret-position="396">
+              <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
               <folding>
-                <element signature="e#38#74#0" expanded="true" />
+                <element signature="e#38#82#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+            <state relative-caret-position="565">
+              <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -120,8 +119,8 @@
         <option value="$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/Space.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/Dimension.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/ExampleImpl.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala" />
       </list>
     </option>
   </component>
@@ -726,21 +725,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="61" selection-start-line="7" selection-start-column="61" selection-end-line="7" selection-end-column="61" />
-          <folding>
-            <element signature="e#38#74#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="565">
+          <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/org/eichelberger/sfseize/api/ExampleImplTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
-          <folding />
+        <state relative-caret-position="396">
+          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+          <folding>
+            <element signature="e#38#82#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
