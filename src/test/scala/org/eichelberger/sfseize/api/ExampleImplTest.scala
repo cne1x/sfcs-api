@@ -16,12 +16,17 @@ class ExampleImplTest extends Specification with LazyLogging {
   }
 
   "longitude ContinuousDiscretizer" should {
-    "correctly handle Max value" in {
+    "correctly handle extreme value" in {
       for (c <- 1 to 36) {
         val discretizer = ContinuousDiscretizer("example", ContinuousFieldRange(-180.0, 180.0), c)
-        val bin = discretizer.discretize(180.0)
-        println(s"Discretizing maximum value, $c bins:  $bin")
-        bin must equalTo(c - 1)
+
+        val binMax = discretizer.discretize(180.0)
+        println(s"Discretizing maximum longitude, $c bins:  $binMax")
+        binMax must equalTo(c - 1)
+
+        val binMin = discretizer.discretize(-180.0)
+        println(s"Discretizing minimum longitude, $c bins:  $binMin")
+        binMin must equalTo(0)
       }
 
       1 must equalTo(1)
