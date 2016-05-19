@@ -12,7 +12,7 @@ case class ContinuousFieldRange(minimum: Double, maximum: Double, override val i
 
 case class ContinuousSpace(ranges: Seq[ContinuousFieldRange]) extends Space[Double]
 
-case class ContinuousDiscretizer(fieldName: String, range: ContinuousFieldRange, cardinality: Long) extends Discretizer[Double] {
+case class ContinuousDiscretizer(override val name: String, range: ContinuousFieldRange, cardinality: Long) extends Discretizer[Double] {
   val rangeSize = range.maximum - range.minimum
   val binSize = rangeSize / cardinality.toDouble
 
@@ -40,4 +40,25 @@ case class ContinuousDiscretizer(fieldName: String, range: ContinuousFieldRange,
       )
     )
   }
+}
+
+/******************************************************
+  *  single curve
+  ******************************************************/
+
+case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
+  override def baseName: String = "RowMajorCurve"
+
+  override def encode(point: Seq[Long]): Long =
+    point.zip(placeValues).foldLeft(0L)((acc, t) => t match {
+      case (coordinate, placeValue) => acc + coordinate * placeValue
+    })
+
+  override def decode(index: Long): Seq[Long] = {
+    (0 until numChildren).foldLeft((index, Seq[Long]()))((acc, i) => acc match {
+      case (remainder, seqSoFar) =>
+        val value = remainder / placeValues(i)
+        (remainder - value * placeValues(i), seqSoFar ++ Seq(value))
+    })
+  }._2
 }

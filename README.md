@@ -17,7 +17,7 @@ that parts of this API may some day be useful to SFCurve.)
 | field range | Yes | Yes | a contiguous subset of an ordered field |
 | space       | Yes | Yes | a collection of one or more field ranges that together define a sub-space |
 | dimension   | Kinda' | No | needs to include more metadata? standard type information? |
-| curve       | No  | No  | keep this lossless, operating strictly within index-space; helpers can be used to translate to/from user space |
+| curve       | Yes  | Yes  | keep this lossless, operating strictly within index-space; helpers can be used to translate to/from user space |
 | query       | No  | No  | this needs to include not only routines for correctness, but for short-circuiting to be faster at the cost of more false positives |
 
 ## issues and developer notes

@@ -51,4 +51,49 @@ class ExampleImplTest extends Specification with LazyLogging {
       1 must equalTo(1)
     }
   }
+
+  "row-major curve" should {
+    "cover all index values without repeats" in {
+      val xDisc = ContinuousDiscretizer("x", ContinuousFieldRange(0.0, 1.0), 5)
+      val yDisc = ContinuousDiscretizer("y", ContinuousFieldRange(0.0, 1.0), 2)
+      val zDisc = ContinuousDiscretizer("z", ContinuousFieldRange(0.0, 1.0), 3)
+      val r = RowMajorCurve(Seq(xDisc, yDisc, zDisc))
+
+      var indexes = new collection.mutable.HashSet[Long]()
+
+      var xi = 0L
+      while (xi < xDisc.cardinality) {
+        var yi = 0L
+        while (yi < yDisc.cardinality) {
+          var zi = 0L
+          while (zi < zDisc.cardinality) {
+            val point = Seq[Long](xi, yi, zi)
+            val index = r.encode(point)
+            val returnPoint = r.decode(index)
+
+            println(s"${r.name}.encode R($xi,$yi,$zi) = $index -> $returnPoint")
+
+            // no index seen more than once
+            indexes.contains(index) must beFalse
+            indexes.add(index)
+
+            // index must be invertible
+            returnPoint.size must equalTo(r.numChildren)
+            (0 until r.numChildren).foreach(i => returnPoint(i) must equalTo(point(i)))
+
+            zi += 1L
+          }
+          yi += 1L
+        }
+        xi += 1L
+      }
+
+      // all valid indexes must be seen
+      for (i <- 0 until r.cardinality.toInt)
+        indexes.contains(i) must beTrue
+
+      // you must have computed no index not already checked
+      indexes.size must equalTo(r.cardinality)
+    }
+  }
 }
