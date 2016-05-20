@@ -49,6 +49,9 @@ case class ContinuousDiscretizer(override val name: String, range: ContinuousFie
 case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
   override def baseName: String = "RowMajorCurve"
 
+  def placeValues: Seq[Long] =
+    (for (i <- 1 until numChildren) yield cardinalities.slice(i, numChildren).product) ++ Seq(1L)
+
   override def encode(point: Seq[Long]): Long =
     point.zip(placeValues).foldLeft(0L)((acc, t) => t match {
       case (coordinate, placeValue) => acc + coordinate * placeValue

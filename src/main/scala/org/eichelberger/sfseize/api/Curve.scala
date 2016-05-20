@@ -1,7 +1,5 @@
 package org.eichelberger.sfseize.api
 
-trait DiscreteSource extends Cardinality with Named
-
 trait Curve extends DiscreteSource {
   import Curve._
 
@@ -16,9 +14,6 @@ trait Curve extends DiscreteSource {
   def numChildren: Int = children.size
 
   def cardinalities: Seq[Long] = children.map(_.cardinality)
-
-  def placeValues: Seq[Long] =
-    (for (i <- 1 until numChildren) yield cardinalities.slice(i, numChildren).product) ++ Seq(1L)
 
   def cardinality: Long = cardinalities.product
 
@@ -37,4 +32,9 @@ object Curve {
   def acceptNonZero(cardinality: Long): Boolean = cardinality > 0
 
   def acceptMultipleOf(cardinality: Long, factor: Long): Boolean = (cardinality % factor) == 0
+
+  def acceptPowerOf(cardinality: Long, base: Long): Boolean = {
+    val power = Math.round(Math.log(cardinality) / Math.log(base)).toLong
+    Math.round(Math.pow(base, power)) == cardinality
+  }
 }
