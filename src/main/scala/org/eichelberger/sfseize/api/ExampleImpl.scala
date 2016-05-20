@@ -13,6 +13,9 @@ case class ContinuousFieldRange(minimum: Double, maximum: Double, override val i
 case class ContinuousSpace(ranges: Seq[ContinuousFieldRange]) extends Space[Double]
 
 case class ContinuousDiscretizer(override val name: String, range: ContinuousFieldRange, cardinality: Long) extends Discretizer[Double] {
+  val minimum = range.minimum
+  val maximum = range.maximum
+
   val rangeSize = range.maximum - range.minimum
   val binSize = rangeSize / cardinality.toDouble
 
@@ -43,7 +46,7 @@ case class ContinuousDiscretizer(override val name: String, range: ContinuousFie
 }
 
 /******************************************************
-  *  single curve
+  *  single curves
   ******************************************************/
 
 case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
@@ -65,3 +68,30 @@ case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
     })
   }._2
 }
+
+case class PeanoCurve(children: Seq[DiscreteSource]) extends Curve {
+  override def baseName: String = "PeanoCurve"
+
+  override def encode(point: Seq[Long]): Long = {
+    // TODO function body
+    0L
+  }
+
+  override def decode(index: Long): Seq[Long] = {
+    // TODO function body
+    Seq(0)
+  }
+}
+
+/******************************************************
+  *  composed curve
+  ******************************************************/
+
+// trite R(x, P(y, z))
+class ComposedCurve_RP(xDim: ContinuousDiscretizer, yDim: ContinuousDiscretizer, zDim: ContinuousDiscretizer)
+  extends RowMajorCurve(Seq(xDim, PeanoCurve(Seq(yDim, zDim))))
+
+
+/******************************************************
+  *  single range-finder
+  ******************************************************/
