@@ -52,6 +52,47 @@ class ExampleImplTest extends Specification with LazyLogging {
     }
   }
 
+  // generic method that doesn't care about the odering; it
+  // just needs to be able to map each index to a unique point
+  def indexToPoint(cardinalities: Seq[Long], index: Long): Seq[Long] = {
+    val numChildren = cardinalities.length
+    val placeValues: Seq[Long] =
+      (for (i <- 1 until numChildren) yield cardinalities.slice(i, numChildren).product) ++ Seq(1L)
+    (0 until numChildren).foldLeft((index, Seq[Long]()))((acc, i) => acc match {
+      case (remainder, seqSoFar) =>
+        val value = remainder / placeValues(i)
+        (remainder - value * placeValues(i), seqSoFar ++ Seq(value))
+    })._2
+  }
+
+  def validateCurve(curve: Curve) = {
+    val indexes = new collection.mutable.HashSet[Long]()
+
+    for (i <- 0 until curve.cardinality.toInt) {
+      val point = indexToPoint(curve.cardinalities, i.toLong)
+      val index = curve.encode(point)
+      val returnPoint = curve.decode(index)
+      logger.debug(s"${curve.name}.encode lcv $i -> (${point.mkString(",")}) = $index -> $returnPoint")
+
+      // no index seen more than once
+      indexes.contains(index) must beFalse
+      indexes.add(index)
+
+      // index must be invertible
+      returnPoint.size must equalTo(curve.numChildren)
+      (0 until curve.numChildren).foreach(i => returnPoint(i) must equalTo(point(i)))
+    }
+
+    // all valid indexes must be seen
+    for (i <- 0 until curve.cardinality.toInt) {
+      if (!indexes.contains(i)) println(s"Failed to find index $i")
+      indexes.contains(i) must beTrue
+    }
+
+    // you must have computed no index not already checked
+    indexes.size must equalTo(curve.cardinality)
+  }
+
   "row-major curve" should {
     "cover all index values without repeats" in {
       val xDisc = ContinuousDiscretizer("x", ContinuousFieldRange(0.0, 1.0), 5)
@@ -59,41 +100,16 @@ class ExampleImplTest extends Specification with LazyLogging {
       val zDisc = ContinuousDiscretizer("z", ContinuousFieldRange(0.0, 1.0), 3)
       val r = RowMajorCurve(Seq(xDisc, yDisc, zDisc))
 
-      var indexes = new collection.mutable.HashSet[Long]()
+      validateCurve(r)
+    }
+  }
 
-      var xi = 0L
-      while (xi < xDisc.cardinality) {
-        var yi = 0L
-        while (yi < yDisc.cardinality) {
-          var zi = 0L
-          while (zi < zDisc.cardinality) {
-            val point = Seq[Long](xi, yi, zi)
-            val index = r.encode(point)
-            val returnPoint = r.decode(index)
+  "square Peano 2D curve" should {
+    "encode" in {
+      val disc = ContinuousDiscretizer("w", ContinuousFieldRange(0.0, 1.0), 9)
+      val p = PeanoCurve2D(Seq(disc, disc))
 
-            logger.debug(s"${r.name}.encode R($xi,$yi,$zi) = $index -> $returnPoint")
-
-            // no index seen more than once
-            indexes.contains(index) must beFalse
-            indexes.add(index)
-
-            // index must be invertible
-            returnPoint.size must equalTo(r.numChildren)
-            (0 until r.numChildren).foreach(i => returnPoint(i) must equalTo(point(i)))
-
-            zi += 1L
-          }
-          yi += 1L
-        }
-        xi += 1L
-      }
-
-      // all valid indexes must be seen
-      for (i <- 0 until r.cardinality.toInt)
-        indexes.contains(i) must beTrue
-
-      // you must have computed no index not already checked
-      indexes.size must equalTo(r.cardinality)
+      validateCurve(p)
     }
   }
 }

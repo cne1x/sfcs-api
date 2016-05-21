@@ -71,15 +71,71 @@ case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
     })._2
 }
 
-case class PeanoCurve(children: Seq[DiscreteSource]) extends Curve {
-  override def baseName: String = "PeanoCurve"
+case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
+  override def baseName: String = "PeanoCurve2D"
 
-  // Peano accepts all cardinalities that are powers of 3
-  def accepts(cardinalities: Seq[Long]): Boolean = cardinalities.forall(Curve.acceptPowerOf(_, 3))
+  // there are only four possible orientations of the 9-square unit;
+  //   orientation# -> row-major index
+  val orientations = Map(
+    0 -> Seq(0, 5, 6, 1, 4, 7, 2, 3, 8),
+    1 -> Seq(6, 5, 0, 7, 4, 1, 8, 3, 2),
+    2 -> Seq(2, 3, 8, 1, 4, 7, 0, 5, 6),
+    3 -> Seq(8, 3, 2, 7, 4, 1, 6, 5, 0)
+  )
+
+  // Peano has an easy substitution pattern for orientations
+  // as you recurse down levels of detail;
+  //   orientation# -> row-major set of orientations used at the next level of precision
+  val orientationMap = Map(
+    0 -> Seq(0, 2, 0, 1, 3, 1, 0, 2, 0),
+    1 -> Seq(1, 3, 1, 0, 2, 0, 1, 3, 1),
+    2 -> Seq(2, 0, 2, 3, 1, 3, 2, 0, 2),
+    3 -> Seq(3, 1, 1, 2, 0, 2, 3, 1, 3)
+  )
+
+  // Peano accepts all cardinalities that are powers of 3;
+  // for fun, let's also limit it to 2D squares
+  def accepts(cardinalities: Seq[Long]): Boolean =
+    cardinalities.length == 2 && cardinalities.forall(Curve.acceptPowerOf(_, 3)) && isSquare
+
+  // now many levels of recursion are there
+  def levels: Int = Math.round(Math.log(cardinalities.head) / Math.log(3.0)).toInt
 
   override def encode(point: Seq[Long]): Long = {
-    // TODO function body
-    0L
+    require(point.length == numChildren)
+
+    def seek(p: Seq[Long], orientation: Int, recursesLeft: Int = levels): Long = {
+      require(recursesLeft >= 1, s"$name went weird:  recurses left is $recursesLeft")
+
+      if (recursesLeft == 1) {
+        // you've bottomed out
+        val offset = 3 * p(0).toInt + p(1).toInt
+        orientations(orientation)(offset)
+      } else {
+        // you have further to recurse
+        val unitSize: Long = Math.round(Math.pow(3, recursesLeft - 1))
+        val thisY = (p(0) / unitSize).toInt
+        val thisX = (p(1) / unitSize).toInt
+        val nextOrientation = orientationMap(orientation)(thisY * 3 + thisX)
+        val nextY = p(0) % unitSize
+        val nextX = p(1) % unitSize
+        val basis = Math.max(0, orientations(orientation)(thisY * 3 + thisX) - 1) * unitSize * unitSize
+
+        //TODO remove
+//        println(s"seek((${p(0)},${p(1)}), $orientation, $recursesLeft)...")
+//        println(s"  unit size:  $unitSize")
+//        println(s"  this pos:  $thisY, $thisX")
+//        println(s"  next orientation:  $nextOrientation")
+//        println(s"  next pos:  $nextY, $nextX")
+//        println(s"  this orientation index:  ${orientations(orientation)(thisY * 3 + thisX)}")
+//        println(s"  basis:  $basis")
+
+        basis + seek(Seq(nextY, nextX), nextOrientation, recursesLeft - 1)
+      }
+    }
+
+    // the top-level orientation is always #0
+    seek(point, 0)
   }
 
   override def decode(index: Long): Seq[Long] = {
@@ -94,7 +150,7 @@ case class PeanoCurve(children: Seq[DiscreteSource]) extends Curve {
 
 // trite R(x, P(y, z))
 class ComposedCurve_RP(xDim: ContinuousDiscretizer, yDim: ContinuousDiscretizer, zDim: ContinuousDiscretizer)
-  extends RowMajorCurve(Seq(xDim, PeanoCurve(Seq(yDim, zDim))))
+  extends RowMajorCurve(Seq(xDim, PeanoCurve2D(Seq(yDim, zDim))))
 
 
 /******************************************************
