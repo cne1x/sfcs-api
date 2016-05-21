@@ -28,8 +28,8 @@
       <file leaf-file-name="ExampleImpl.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/ExampleImpl.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="139" column="18" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="18" />
+            <state relative-caret-position="540">
+              <caret line="160" column="22" selection-start-line="160" selection-start-column="22" selection-end-line="160" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -680,27 +680,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ExampleImplTest_validateCurve - 2016.05.21 at 10h 45m 02s.xml">
-      <configuration name="ExampleImplTest.validateCurve" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 10h 45m 08s.xml">
-      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
-    </history-entry>
-    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 10h 46m 11s.xml">
-      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
-    </history-entry>
-    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 10h 51m 42s.xml">
-      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
-    </history-entry>
-    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 10h 53m 21s.xml">
-      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
-    </history-entry>
-    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 10h 54m 22s.xml">
-      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
-    </history-entry>
-    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 10h 57m 36s.xml">
-      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
-    </history-entry>
     <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__cover_all_index_values_without_repeats - 2016.05.21 at 11h 16m 20s.xml">
       <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::cover all index values without repeats" configurationId="Specs2RunConfiguration" />
     </history-entry>
@@ -710,6 +689,27 @@
     <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 11h 59m 04s.xml">
       <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
     </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 03m 39s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 04m 59s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 06m 12s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 08m 21s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 22m 32s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 26m 26s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
+    <history-entry file="org_eichelberger_sfseize_api_ExampleImplTest__encode - 2016.05.21 at 12h 27m 36s.xml">
+      <configuration name="org.eichelberger.sfseize.api.ExampleImplTest::encode" configurationId="Specs2RunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="7" />
@@ -717,7 +717,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917705" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291536" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -1151,8 +1151,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/org/eichelberger/sfseize/api/ExampleImpl.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="139" column="18" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="18" />
+        <state relative-caret-position="540">
+          <caret line="160" column="22" selection-start-line="160" selection-start-column="22" selection-end-line="160" selection-end-column="22" />
           <folding />
         </state>
       </provider>

@@ -119,7 +119,9 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
         val nextOrientation = orientationMap(orientation)(thisY * 3 + thisX)
         val nextY = p(0) % unitSize
         val nextX = p(1) % unitSize
-        val basis = Math.max(0, orientations(orientation)(thisY * 3 + thisX) - 1) * unitSize * unitSize
+
+        val steps = orientations(orientation)(thisY * 3 + thisX)
+        val basis = steps * unitSize * unitSize
 
         basis + seek(Seq(nextY, nextX), nextOrientation, recursesLeft - 1)
       }
@@ -134,12 +136,19 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
     require(index < cardinality, s"$name.decode($index) overflow")
 
     def seek(Y: Long, X: Long, min: Long, orientation: Int, recursesLeft: Int = levels): Seq[Long] = {
+      //TODO debug
+      println(s"P.decode($index).seek($Y, $X, $min, $orientation, $recursesLeft)...")
+
       if (recursesLeft == 1) {
         // bottom out
         val steps = index - min
-        val offset = orientations(orientation).find(_ == steps).get  // TODO expedite
+        val offset = orientations(orientation).indexOf(steps)  // TODO expedite
         val y = Y + offset / 3
         val x = X + offset % 3
+
+        //TODO debug
+        println(s"  steps=$steps, offset=$offset, y=$y, x=$x")
+
         Seq(y, x)
       } else {
         // keep recursing
@@ -147,10 +156,11 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
         val span = index - min
         val steps = span / (unitSize * unitSize)
         val nextMin = min + steps * unitSize * unitSize
-        val offset = orientations(orientation).find(_ == steps).get  // TODO expedite
-        val y = Y + steps / 3
-        val x = X + steps % 3
+        val offset = orientations(orientation).indexOf(steps)  // TODO expedite
+        val y = offset / 3
+        val x = offset % 3
         val nextOrientation = orientationMap(orientation)(offset)
+
         seek(Y + y * unitSize, X + x * unitSize, nextMin, nextOrientation, recursesLeft - 1)
       }
     }
