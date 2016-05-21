@@ -121,15 +121,6 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
         val nextX = p(1) % unitSize
         val basis = Math.max(0, orientations(orientation)(thisY * 3 + thisX) - 1) * unitSize * unitSize
 
-        //TODO remove
-//        println(s"seek((${p(0)},${p(1)}), $orientation, $recursesLeft)...")
-//        println(s"  unit size:  $unitSize")
-//        println(s"  this pos:  $thisY, $thisX")
-//        println(s"  next orientation:  $nextOrientation")
-//        println(s"  next pos:  $nextY, $nextX")
-//        println(s"  this orientation index:  ${orientations(orientation)(thisY * 3 + thisX)}")
-//        println(s"  basis:  $basis")
-
         basis + seek(Seq(nextY, nextX), nextOrientation, recursesLeft - 1)
       }
     }
@@ -139,8 +130,32 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
   }
 
   override def decode(index: Long): Seq[Long] = {
-    // TODO function body
-    Seq(0)
+    require(index >= 0L, s"$name.decode($index) underflow")
+    require(index < cardinality, s"$name.decode($index) overflow")
+
+    def seek(Y: Long, X: Long, min: Long, orientation: Int, recursesLeft: Int = levels): Seq[Long] = {
+      if (recursesLeft == 1) {
+        // bottom out
+        val steps = index - min
+        val offset = orientations(orientation).find(_ == steps).get  // TODO expedite
+        val y = Y + offset / 3
+        val x = X + offset % 3
+        Seq(y, x)
+      } else {
+        // keep recursing
+        val unitSize: Long = Math.round(Math.pow(3, recursesLeft - 1))
+        val span = index - min
+        val steps = span / (unitSize * unitSize)
+        val nextMin = min + steps * unitSize * unitSize
+        val offset = orientations(orientation).find(_ == steps).get  // TODO expedite
+        val y = Y + steps / 3
+        val x = X + steps % 3
+        val nextOrientation = orientationMap(orientation)(offset)
+        seek(Y + y * unitSize, X + x * unitSize, nextMin, nextOrientation, recursesLeft - 1)
+      }
+    }
+
+    seek(0, 0, 0, 0)
   }
 }
 
