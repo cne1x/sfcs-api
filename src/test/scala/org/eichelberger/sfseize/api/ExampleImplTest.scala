@@ -105,8 +105,8 @@ class ExampleImplTest extends Specification with LazyLogging {
   }
 
   "square Peano 2D curve" should {
-    "encode" in {
-      val disc = ContinuousDiscretizer("w", ContinuousFieldRange(0.0, 1.0), 9)
+    "cover all index values without repeats" in {
+      val disc = ContinuousDiscretizer("w", ContinuousFieldRange(0.0, 1.0), 27)
       val p = PeanoCurve2D(Seq(disc, disc))
 
       validateCurve(p)

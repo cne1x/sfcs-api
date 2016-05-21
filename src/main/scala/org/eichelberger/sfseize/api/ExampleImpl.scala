@@ -136,19 +136,12 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
     require(index < cardinality, s"$name.decode($index) overflow")
 
     def seek(Y: Long, X: Long, min: Long, orientation: Int, recursesLeft: Int = levels): Seq[Long] = {
-      //TODO debug
-      println(s"P.decode($index).seek($Y, $X, $min, $orientation, $recursesLeft)...")
-
       if (recursesLeft == 1) {
         // bottom out
         val steps = index - min
         val offset = orientations(orientation).indexOf(steps)  // TODO expedite
         val y = Y + offset / 3
         val x = X + offset % 3
-
-        //TODO debug
-        println(s"  steps=$steps, offset=$offset, y=$y, x=$x")
-
         Seq(y, x)
       } else {
         // keep recursing
@@ -160,7 +153,6 @@ case class PeanoCurve2D(children: Seq[DiscreteSource]) extends Curve {
         val y = offset / 3
         val x = offset % 3
         val nextOrientation = orientationMap(orientation)(offset)
-
         seek(Y + y * unitSize, X + x * unitSize, nextMin, nextOrientation, recursesLeft - 1)
       }
     }
