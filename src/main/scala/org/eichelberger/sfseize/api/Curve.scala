@@ -1,11 +1,13 @@
 package org.eichelberger.sfseize.api
 
 trait Curve extends DiscreteSource {
-  import Curve._
+  require(accepts(cardinalities), s"This curve, $name, does not accept these cardinalities:  " +
+    cardinalities.mkString("[", ", ", "]"))
 
   def children: Seq[DiscreteSource]
 
-  def accepts(cardinalities: Seq[Long]): Boolean = cardinalities.forall(acceptNonZero)
+  // MUST be overridden, or it will reject all cardinalities
+  def accepts(cardinalities: Seq[Long]): Boolean
 
   def encode(point: Seq[Long]): Long
 
@@ -34,6 +36,10 @@ object Curve {
   def acceptMultipleOf(cardinality: Long, factor: Long): Boolean = (cardinality % factor) == 0
 
   def acceptPowerOf(cardinality: Long, base: Long): Boolean = {
+    // skip the expensive operations, if you can
+    if (cardinality <= 1) return false
+
+    // a bit gross, really... find a better way?
     val power = Math.round(Math.log(cardinality) / Math.log(base)).toLong
     Math.round(Math.pow(base, power)) == cardinality
   }

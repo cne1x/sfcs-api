@@ -71,7 +71,7 @@ class ExampleImplTest extends Specification with LazyLogging {
             val index = r.encode(point)
             val returnPoint = r.decode(index)
 
-            println(s"${r.name}.encode R($xi,$yi,$zi) = $index -> $returnPoint")
+            logger.debug(s"${r.name}.encode R($xi,$yi,$zi) = $index -> $returnPoint")
 
             // no index seen more than once
             indexes.contains(index) must beFalse

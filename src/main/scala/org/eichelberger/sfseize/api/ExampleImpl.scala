@@ -52,6 +52,9 @@ case class ContinuousDiscretizer(override val name: String, range: ContinuousFie
 case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
   override def baseName: String = "RowMajorCurve"
 
+  // row-major accepts all positive cardinalities
+  def accepts(cardinalities: Seq[Long]): Boolean = cardinalities.forall(Curve.acceptNonZero)
+
   def placeValues: Seq[Long] =
     (for (i <- 1 until numChildren) yield cardinalities.slice(i, numChildren).product) ++ Seq(1L)
 
@@ -60,17 +63,19 @@ case class RowMajorCurve(children: Seq[DiscreteSource]) extends Curve {
       case (coordinate, placeValue) => acc + coordinate * placeValue
     })
 
-  override def decode(index: Long): Seq[Long] = {
+  override def decode(index: Long): Seq[Long] =
     (0 until numChildren).foldLeft((index, Seq[Long]()))((acc, i) => acc match {
       case (remainder, seqSoFar) =>
         val value = remainder / placeValues(i)
         (remainder - value * placeValues(i), seqSoFar ++ Seq(value))
-    })
-  }._2
+    })._2
 }
 
 case class PeanoCurve(children: Seq[DiscreteSource]) extends Curve {
   override def baseName: String = "PeanoCurve"
+
+  // Peano accepts all cardinalities that are powers of 3
+  def accepts(cardinalities: Seq[Long]): Boolean = cardinalities.forall(Curve.acceptPowerOf(_, 3))
 
   override def encode(point: Seq[Long]): Long = {
     // TODO function body
