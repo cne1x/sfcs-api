@@ -17,7 +17,7 @@ class CartesianProductIteratorTest extends Specification with LazyLogging {
 
       var size = 0
       while (itr.hasNext) {
-        logger.debug(s"$size:  ${itr.next}")
+        logger.debug(s"$size:  ${itr.next()}")
         size += 1
       }
 

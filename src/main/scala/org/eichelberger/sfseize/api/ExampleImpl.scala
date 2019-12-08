@@ -13,11 +13,11 @@ case class ContinuousFieldRange(minimum: Double, maximum: Double, override val i
 case class ContinuousSpace(ranges: Seq[ContinuousFieldRange]) extends Space[Double]
 
 case class ContinuousDiscretizer(override val name: String, range: ContinuousFieldRange, cardinality: Long) extends Discretizer[Double] {
-  val minimum = range.minimum
-  val maximum = range.maximum
+  val minimum: Double = range.minimum
+  val maximum: Double = range.maximum
 
-  val rangeSize = range.maximum - range.minimum
-  val binSize = rangeSize / cardinality.toDouble
+  val rangeSize: Double = range.maximum - range.minimum
+  val binSize: Double = rangeSize / cardinality.toDouble
 
   def conditionedDatum(data: Double): Double =
     Math.min(Math.max(data, range.minimum), range.maximum)
